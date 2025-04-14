@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Image from 'next/image';
 
 const CompanyPopup = ({ company, onClose }) => {
   useEffect(() => {
@@ -34,7 +35,16 @@ const CompanyPopup = ({ company, onClose }) => {
       <div className="detail-popup active pointer-events-auto">
         <div className="flex-1">
           {company.logo && (
-            <img src={company.logo} alt={company.naam} className="company-logo mb-4" />
+            <div className="company-logo">
+              <Image
+                src={company.logo}
+                alt={company.naam}
+                width={120}
+                height={120}
+                style={{ objectFit: 'contain' }}
+                className="w-auto h-auto"
+              />
+            </div>
           )}
           <h2 className="text-xl font-semibold mb-3">Omschrijving</h2>
           <p className="text-gray-700">{company.omschrijving}</p>

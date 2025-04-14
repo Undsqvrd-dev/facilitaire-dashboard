@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, useMap, Tooltip, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import Image from 'next/image';
 
 const MapUpdater = ({ selectedCompany, onSelectCompany }) => {
   const map = useMap();
@@ -64,11 +65,19 @@ const Map = ({ filters, facilities = [], selectedCompany, onSelectCompany }) => 
   };
 
   useEffect(() => {
+    // Verwijder de oude icon URL
     delete L.Icon.Default.prototype._getIconUrl;
+    
+    // Configureer de nieuwe icon URLs
     L.Icon.Default.mergeOptions({
-      iconRetinaUrl: "/leaflet/marker-icon-2x.png",
-      iconUrl: "/leaflet/marker-icon.png",
-      shadowUrl: "/leaflet/marker-shadow.png",
+      iconRetinaUrl: '/leaflet/marker-icon-2x.png',
+      iconUrl: '/leaflet/marker-icon.png',
+      shadowUrl: '/leaflet/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      tooltipAnchor: [16, -28],
+      shadowSize: [41, 41]
     });
   }, []);
 
@@ -134,23 +143,26 @@ const Map = ({ filters, facilities = [], selectedCompany, onSelectCompany }) => 
             icon={L.divIcon({
               className: 'custom-marker',
               iconSize: [width, height],
-              iconAnchor: [width/2, height/2],
-              tooltipAnchor: [0, 0]
+              iconAnchor: [width/2, height],
+              tooltipAnchor: [0, -height/2]
             })}
           >
             <Tooltip 
               permanent={true}
-              direction="center" 
-              offset={[0, -height/2]} 
+              direction="top" 
               className={`marker-tooltip ${isSelected ? 'marker-tooltip-large' : ''}`}
               interactive={true}
             >
               {company.logo && (
                 <div className="marker-logo-container" style={{ width: width + 'px', height: height + 'px' }}>
-                  <img
+                  <Image
                     src={company.logo}
                     alt={company.naam}
+                    width={width}
+                    height={height}
                     className="marker-logo"
+                    style={{ objectFit: 'contain' }}
+                    unoptimized
                   />
                 </div>
               )}

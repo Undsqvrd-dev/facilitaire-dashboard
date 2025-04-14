@@ -1,9 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true, // Zorgt voor extra controles in React tijdens development
-  swcMinify: true, // Snellere build door SWC minifier te gebruiken
   images: {
-    domains: ["yourdomain.com", "anotherdomain.com"], // Voeg hier de domeinen toe die externe afbeeldingen hosten
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      }
+    ],
+    domains: ['localhost']
   },
   async headers() {
     return [
@@ -20,7 +25,7 @@ const nextConfig = {
           },
           {
             key: "Permissions-Policy",
-            value: "geolocation=(self)", // Controleert toegang tot browser API’s
+            value: "geolocation=(self)", // Controleert toegang tot browser API's
           },
         ],
       },

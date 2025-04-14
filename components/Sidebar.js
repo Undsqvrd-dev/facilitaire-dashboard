@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CompanyPopup from "./CompanyPopup"; // Zorg dat dit component bestaat
+import Image from 'next/image';
 
 export default function Sidebar({ facilities = [], onFilterChange, onSelectCompany, selectedCompany }) {
   const [selectedType, setSelectedType] = useState("Alles");
@@ -119,11 +120,15 @@ export default function Sidebar({ facilities = [], onFilterChange, onSelectCompa
                 onClick={() => handleCompanyClick(facility)}
               >
                 {facility.logo && (
-                  <img 
-                    src={facility.logo} 
-                    alt={facility.naam} 
-                    className="w-12 h-12 object-contain"
-                  />
+                  <div className="w-12 h-12 flex-shrink-0">
+                    <Image
+                      src={facility.logo}
+                      alt={facility.naam}
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
                 )}
                 <div>
                   <h4 className="font-semibold">{facility.naam}</h4>
