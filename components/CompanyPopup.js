@@ -31,25 +31,26 @@ const CompanyPopup = ({ company, onClose }) => {
   if (!company) return null;
 
   return (
-    <div className="fixed left-1/2 bottom-10 transform -translate-x-1/2 z-50 w-full flex justify-center items-end pointer-events-none">
-      <div className="detail-popup active pointer-events-auto">
-        <div className="flex-1">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="detail-popup active">
+        {/* Linker kolom met logo en omschrijving */}
+        <div>
           {company.logo && (
             <div className="company-logo">
               <Image
                 src={company.logo}
                 alt={company.naam}
-                width={120}
+                width={180}
                 height={120}
                 style={{ objectFit: 'contain' }}
-                className="w-auto h-auto"
               />
             </div>
           )}
-          <h2 className="text-xl font-semibold mb-3">Omschrijving</h2>
-          <p className="text-gray-700">{company.omschrijving}</p>
+          <h2>{company.naam}</h2>
+          <p>{company.omschrijving}</p>
         </div>
 
+        {/* Rechter kolom met info box */}
         <div className="info-box">
           <div className="info-item">
             <span className="info-label">Type facilitaire organisatie</span>
@@ -57,7 +58,7 @@ const CompanyPopup = ({ company, onClose }) => {
           </div>
           
           <div className="info-item">
-            <span className="info-label">Branche</span>
+            <span className="info-label">Type branche</span>
             <span className="info-value">{company.branche || 'Alles'}</span>
           </div>
           
@@ -78,6 +79,7 @@ const CompanyPopup = ({ company, onClose }) => {
           )}
         </div>
 
+        {/* Sluit knop */}
         <button
           onClick={handleClose}
           className="close-button"
