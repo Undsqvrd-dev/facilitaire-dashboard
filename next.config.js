@@ -5,10 +5,16 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'drive.google.com',
+        pathname: '/uc/**',
+      },
+      {
+        protocol: 'https',
         hostname: '**',
       }
     ],
-    domains: ['localhost']
+    unoptimized: true,
+    domains: ['localhost', 'drive.google.com']
   },
   async headers() {
     return [

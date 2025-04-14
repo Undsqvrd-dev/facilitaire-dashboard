@@ -19,11 +19,24 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Ongeldige gegevensstructuur ontvangen" });
     }
 
+    // Helper functie om Google Drive links om te zetten
+    const formatGoogleDriveUrl = (url) => {
+      if (!url) return "";
+      if (url.includes('drive.google.com')) {
+        // Extract file ID from various Google Drive URL formats
+        const fileId = url.match(/[-\w]{25,}/);
+        if (fileId) {
+          return `https://drive.google.com/uc?export=view&id=${fileId[0]}`;
+        }
+      }
+      return url;
+    };
+
     // Verwerk de data uit de spreadsheet
     const facilities = data.values.slice(1).map((row, index) => ({
       id: index + 1,
       naam: row[0] || "Onbekend",
-      logo: row[1] || "",
+      logo: formatGoogleDriveUrl(row[1]) || "",
       locatie: row[2] || "Onbekend",
       branche: row[3] || "Onbekend",
       type: row[4] || "Onbekend",
