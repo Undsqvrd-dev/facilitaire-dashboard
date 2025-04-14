@@ -39,9 +39,10 @@ const CompanyPopup = ({ company, onClose }) => {
             <Image
               src={company.logo}
               alt={company.naam}
-              width={240}
-              height={160}
+              width={260}
+              height={100}
               style={{ objectFit: 'contain' }}
+              priority
             />
           </div>
         )}
@@ -57,13 +58,13 @@ const CompanyPopup = ({ company, onClose }) => {
         </div>
         
         <div className="info-item">
-          <span className="info-label">Type branche</span>
-          <span className="info-value">{company.branche || 'Alles'}</span>
+          <span className="info-label">Locatie</span>
+          <span className="info-value">{company.locatie}</span>
         </div>
         
         <div className="info-item">
-          <span className="info-label">Locatie</span>
-          <span className="info-value">{company.locatie}</span>
+          <span className="info-label">Type branche</span>
+          <span className="info-value">{company.branche || 'Alles'}</span>
         </div>
 
         {company.website && (
