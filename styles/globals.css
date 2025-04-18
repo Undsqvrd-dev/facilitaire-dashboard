@@ -46,6 +46,10 @@
   padding: 24px;
   overflow-y: auto;
   border-right: 1px solid #e5e7eb;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  bottom: 0;
   /* Scrollbar styling */
   scrollbar-width: thin;
   scrollbar-color: #cbd5e1 #f1f5f9;
@@ -70,6 +74,7 @@
   flex: 1;
   height: calc(100vh - 64px);
   position: relative;
+  margin-left: 300px; /* Breedte van de sidebar */
 }
 
 /* Leaflet container */

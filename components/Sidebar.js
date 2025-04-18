@@ -53,7 +53,6 @@ export default function Sidebar({ facilities = [], onFilterChange, onSelectCompa
   return (
     <div className="sidebar">
       <div className="sidebar-content">
-        <h1 className="text-2xl font-bold mb-4">Facility Finder</h1>
         <h2 className="text-xl font-bold mb-4">Facilitaire bedrijven</h2>
         
         {/* Filters */}
@@ -94,7 +93,7 @@ export default function Sidebar({ facilities = [], onFilterChange, onSelectCompa
 
         {/* Nieuwe knop voor bedrijf toevoegen */}
         <button
-          onClick={() => window.location.href = 'https://www.undsqvrd.nl/contact'}
+          onClick={() => window.location.href = 'https://tally.so/r/nGb0vp'}
           className="w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors mb-4 text-center"
         >
           Zet jouw bedrijf op de kaart!
