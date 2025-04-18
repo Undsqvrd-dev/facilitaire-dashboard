@@ -93,7 +93,7 @@ export default function Sidebar({ facilities = [], onFilterChange, onSelectCompa
 
         {/* Nieuwe knop voor bedrijf toevoegen */}
         <button
-          onClick={() => window.location.href = 'https://tally.so/r/nGb0vp'}
+          onClick={() => window.open('https://tally.so/r/nGb0vp', '_blank')}
           className="w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors mb-4 text-center"
         >
           Zet jouw bedrijf op de kaart!
