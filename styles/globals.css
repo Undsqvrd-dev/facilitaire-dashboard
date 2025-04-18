@@ -4,7 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Voeg bovenaan de CSS toe */
+/* Top bar styling */
 .top-bar {
   position: fixed;
   top: 0;
@@ -16,7 +16,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 1500; /* Hoger dan de Leaflet controls */
+  z-index: 1500;
+  height: 64px;
 }
 
 .top-bar h1 {
@@ -30,13 +31,55 @@
   opacity: 0.9;
 }
 
-/* Custom styles */
-.leaflet-container {
-  width: 100%;
+/* Main layout */
+.main-container {
+  display: flex;
   height: 100vh;
-  margin-top: 60px; /* Ruimte voor de topbar */
+  padding-top: 64px; /* Hoogte van de topbar */
 }
 
+/* Sidebar styling */
+.sidebar {
+  width: 300px;
+  height: calc(100vh - 64px);
+  background: white;
+  padding: 24px;
+  overflow-y: auto;
+  border-right: 1px solid #e5e7eb;
+  /* Scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+/* Webkit scrollbar styling */
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 4px;
+}
+
+/* Map container */
+.map-container {
+  flex: 1;
+  height: calc(100vh - 64px);
+  position: relative;
+}
+
+/* Leaflet container */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  margin-top: 0;
+}
+
+/* Custom styles */
 .leaflet-tooltip.marker-tooltip {
   background: transparent;
   border: none;
