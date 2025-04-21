@@ -1,3 +1,5 @@
+import { companyLogos } from '../../config/logos';
+
 export default async function handler(req, res) {
   try {
     const response = await fetch(
@@ -13,6 +15,7 @@ export default async function handler(req, res) {
     // Debugging: Log de ruwe data om te zien wat erin zit
     console.log("Headers:", data.values[0]); // Log de kolomnamen
     console.log("Eerste rij data:", data.values[1]); // Log de eerste rij met data
+    console.log("Logo URL van eerste rij:", data.values[1][1]); // Log specifiek de logo URL
 
     // Controleer of data.values bestaat
     if (!data.values || !Array.isArray(data.values)) {
@@ -21,47 +24,29 @@ export default async function handler(req, res) {
     }
 
     // Helper functie om logo URLs correct te formatteren
-    function formatGoogleDriveUrl(url) {
-      if (!url || typeof url !== 'string' || url.trim() === '') {
-        return '/placeholder-logo.svg';
+    function formatGoogleDriveUrl(url, bedrijfsnaam) {
+      // Check eerst of we een mapping hebben voor dit bedrijf
+      if (companyLogos[bedrijfsnaam]) {
+        return companyLogos[bedrijfsnaam];
       }
 
-      // Verwijder eventuele aanhalingstekens en spaties
-      url = url.trim().replace(/['"]/g, '');
-
-      // Als het een lokaal pad is, gebruik het direct
-      if (url.startsWith('/Logos/')) {
-        return url;
-      }
-
-      // Check voor Google Drive link
-      if (url.includes('drive.google.com')) {
-        const fileId = url.match(/[-\w]{25,}/);
-        if (fileId) {
-          return `https://drive.google.com/uc?export=view&id=${fileId[0]}`;
-        }
-      }
-      
-      // Als het geen geldig pad is, gebruik placeholder
+      // Als er geen mapping is, gebruik de placeholder
       return '/placeholder-logo.svg';
     }
 
     // Verwerk de data uit de spreadsheet
-    const facilities = data.values.slice(1).map((row, index) => {
-      console.log('Raw logo URL:', row[1]); // Debug log voor logo URL
-      return {
-        id: index + 1,
-        naam: row[0] || "Onbekend",
-        logo: formatGoogleDriveUrl(row[1] || ""),
-        locatie: row[2] || "Onbekend",
-        branche: row[3] || "Onbekend",
-        type: row[4] || "Onbekend",
-        website: row[5] || "",
-        lat: row[6] ? parseFloat(row[6].replace(',', '.')) : null,
-        lng: row[7] ? parseFloat(row[7].replace(',', '.')) : null,
-        omschrijving: row[8] || ""
-      };
-    });
+    const facilities = data.values.slice(1).map((row, index) => ({
+      id: index + 1,
+      naam: row[0] || "Onbekend",
+      logo: formatGoogleDriveUrl(row[1], row[0]),
+      locatie: row[2] || "Onbekend",
+      branche: row[3] || "Onbekend",
+      type: row[4] || "Onbekend",
+      website: row[5] || "",
+      lat: row[6] ? parseFloat(row[6].replace(',', '.')) : null,
+      lng: row[7] ? parseFloat(row[7].replace(',', '.')) : null,
+      omschrijving: row[8] || ""
+    }));
 
     // Debugging: Log de verwerkte faciliteiten
     console.log("Verwerkte faciliteiten:", facilities);
