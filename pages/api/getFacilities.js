@@ -19,11 +19,18 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Ongeldige gegevensstructuur ontvangen" });
     }
 
+    // Helper functie om logo URLs correct te formatteren
+    const formatLogoUrl = (url) => {
+      if (!url) return "";
+      // Als de URL niet met een / begint, voeg deze toe
+      return url.startsWith('/') ? url : `/${url}`;
+    };
+
     // Verwerk de data uit de spreadsheet
     const facilities = data.values.slice(1).map((row, index) => ({
       id: index + 1,
       naam: row[0] || "Onbekend",
-      logo: row[1] || "",  // De URL is nu al in het juiste formaat (/logos/...)
+      logo: formatLogoUrl(row[1] || ""),
       locatie: row[2] || "Onbekend",
       branche: row[3] || "Onbekend",
       type: row[4] || "Onbekend",
