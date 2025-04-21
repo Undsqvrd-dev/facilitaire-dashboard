@@ -19,39 +19,11 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Ongeldige gegevensstructuur ontvangen" });
     }
 
-    // Helper functie om logo URLs om te zetten
-    const formatLogoUrl = (url) => {
-      if (!url) return "";
-      
-      // Verwijder localhost referenties als die er nog zijn
-      if (url.includes('localhost:3000')) {
-        return url.split('localhost:3000')[1];
-      }
-      
-      // Als het al een relatief pad is, gebruik het direct
-      if (url.startsWith('/logos/')) {
-        return url;
-      }
-      
-      // Als het alleen de bestandsnaam is, voeg /logos/ toe
-      if (!url.startsWith('/') && !url.includes('://')) {
-        return `/logos/${url}`;
-      }
-      
-      // Google Drive URLs worden ook omgezet naar lokale paden
-      if (url.includes('drive.google.com')) {
-        const fileName = url.split('/').pop();
-        return `/logos/${fileName}`;
-      }
-      
-      return url;
-    };
-
     // Verwerk de data uit de spreadsheet
     const facilities = data.values.slice(1).map((row, index) => ({
       id: index + 1,
       naam: row[0] || "Onbekend",
-      logo: formatLogoUrl(row[1]) || "",
+      logo: row[1] || "",  // De URL is nu al in het juiste formaat (/logos/...)
       locatie: row[2] || "Onbekend",
       branche: row[3] || "Onbekend",
       type: row[4] || "Onbekend",
