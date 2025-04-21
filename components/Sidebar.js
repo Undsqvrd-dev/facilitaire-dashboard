@@ -126,6 +126,10 @@ export default function Sidebar({ facilities = [], onFilterChange, onSelectCompa
                       width={48}
                       height={48}
                       className="w-full h-full object-contain"
+                      onError={(e) => {
+                        e.target.src = '/placeholder-logo.png'; // Zorg dat je een placeholder afbeelding hebt
+                      }}
+                      unoptimized
                     />
                   </div>
                 )}

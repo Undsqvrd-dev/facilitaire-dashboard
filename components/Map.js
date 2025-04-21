@@ -162,6 +162,9 @@ const Map = ({ filters, facilities = [], selectedCompany, onSelectCompany }) => 
                     height={height}
                     className="marker-logo"
                     style={{ objectFit: 'contain' }}
+                    onError={(e) => {
+                      e.target.src = '/placeholder-logo.png';
+                    }}
                     unoptimized
                   />
                 </div>

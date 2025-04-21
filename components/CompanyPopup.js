@@ -42,7 +42,11 @@ const CompanyPopup = ({ company, onClose }) => {
               width={260}
               height={100}
               style={{ objectFit: 'contain' }}
+              onError={(e) => {
+                e.target.src = '/placeholder-logo.png';
+              }}
               priority
+              unoptimized
             />
           </div>
         )}
