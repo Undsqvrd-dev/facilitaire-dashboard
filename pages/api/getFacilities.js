@@ -11,7 +11,8 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     // Debugging: Log de ruwe data om te zien wat erin zit
-    console.log("Ruwe Google Sheets Data:", data);
+    console.log("Headers:", data.values[0]); // Log de kolomnamen
+    console.log("Eerste rij data:", data.values[1]); // Log de eerste rij met data
 
     // Controleer of data.values bestaat
     if (!data.values || !Array.isArray(data.values)) {
@@ -21,53 +22,42 @@ export default async function handler(req, res) {
 
     // Helper functie om logo URLs correct te formatteren
     function formatGoogleDriveUrl(url) {
-      if (!url || typeof url !== 'string') {
+      if (!url || typeof url !== 'string' || url.trim() === '') {
         return '/placeholder-logo.svg';
       }
+
+      // Verwijder eventuele aanhalingstekens
+      url = url.trim().replace(/['"]/g, '');
 
       // Check voor Google Drive link
       if (url.includes('drive.google.com')) {
         // Extract file ID
-        let fileId;
-        
-        // Match verschillende Google Drive URL formats
-        const patterns = [
-          /\/file\/d\/([-\w]{25,})/,  // /file/d/ format
-          /id=([-\w]{25,})/,          // ?id= format
-          /\/d\/([-\w]{25,})/,        // /d/ format
-          /[-\w]{25,}/                // Direct ID
-        ];
-
-        for (const pattern of patterns) {
-          const match = url.match(pattern);
-          if (match) {
-            fileId = match[1];
-            break;
-          }
-        }
-
+        const fileId = url.match(/[-\w]{25,}/);
         if (fileId) {
-          // Gebruik de directe download URL
-          return `https://drive.google.com/thumbnail?id=${fileId}&sz=w260-h100`;
+          // Gebruik een directe link naar de afbeelding
+          return `https://drive.google.com/uc?export=view&id=${fileId[0]}`;
         }
       }
       
-      return '/placeholder-logo.svg';
+      return url; // Return de originele URL als het geen Google Drive link is
     }
 
     // Verwerk de data uit de spreadsheet
-    const facilities = data.values.slice(1).map((row, index) => ({
-      id: index + 1,
-      naam: row[0] || "Onbekend",
-      logo: formatGoogleDriveUrl(row[1] || ""),
-      locatie: row[2] || "Onbekend",
-      branche: row[3] || "Onbekend",
-      type: row[4] || "Onbekend",
-      website: row[5] || "",
-      lat: row[6] ? parseFloat(row[6].replace(',', '.')) : null,
-      lng: row[7] ? parseFloat(row[7].replace(',', '.')) : null,
-      omschrijving: row[8] || ""
-    }));
+    const facilities = data.values.slice(1).map((row, index) => {
+      console.log('Raw logo URL:', row[1]); // Debug log voor logo URL
+      return {
+        id: index + 1,
+        naam: row[0] || "Onbekend",
+        logo: formatGoogleDriveUrl(row[1] || ""),
+        locatie: row[2] || "Onbekend",
+        branche: row[3] || "Onbekend",
+        type: row[4] || "Onbekend",
+        website: row[5] || "",
+        lat: row[6] ? parseFloat(row[6].replace(',', '.')) : null,
+        lng: row[7] ? parseFloat(row[7].replace(',', '.')) : null,
+        omschrijving: row[8] || ""
+      };
+    });
 
     // Debugging: Log de verwerkte faciliteiten
     console.log("Verwerkte faciliteiten:", facilities);

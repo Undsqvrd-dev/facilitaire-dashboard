@@ -38,13 +38,20 @@ const CompanyPopup = ({ company, onClose }) => {
           <div className="company-logo">
             <Image
               src={company.logo}
-              alt={company.naam}
+              alt={`${company.naam} logo`}
               width={260}
               height={100}
-              style={{ objectFit: 'contain' }}
-              onError={(e) => {
-                e.currentTarget.src = '/placeholder-logo.svg';
+              style={{ 
+                maxWidth: '100%',
+                height: 'auto',
+                objectFit: 'contain',
+                backgroundColor: '#f3f4f6'
               }}
+              onError={() => {
+                const img = document.querySelector('.company-logo img');
+                if (img) img.src = '/placeholder-logo.svg';
+              }}
+              priority
               unoptimized
             />
           </div>
