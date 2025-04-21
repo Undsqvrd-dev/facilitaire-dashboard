@@ -25,10 +25,30 @@ export default async function handler(req, res) {
         return '/placeholder-logo.svg';
       }
 
+      // Check voor Google Drive link
       if (url.includes('drive.google.com')) {
-        const fileId = url.match(/[-\w]{25,}/);
+        // Extract file ID
+        let fileId;
+        
+        // Match verschillende Google Drive URL formats
+        const patterns = [
+          /\/file\/d\/([-\w]{25,})/,  // /file/d/ format
+          /id=([-\w]{25,})/,          // ?id= format
+          /\/d\/([-\w]{25,})/,        // /d/ format
+          /[-\w]{25,}/                // Direct ID
+        ];
+
+        for (const pattern of patterns) {
+          const match = url.match(pattern);
+          if (match) {
+            fileId = match[1];
+            break;
+          }
+        }
+
         if (fileId) {
-          return `https://drive.google.com/uc?export=view&id=${fileId[0]}`;
+          // Gebruik de directe download URL
+          return `https://drive.google.com/thumbnail?id=${fileId}&sz=w260-h100`;
         }
       }
       
