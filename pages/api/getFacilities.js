@@ -26,20 +26,24 @@ export default async function handler(req, res) {
         return '/placeholder-logo.svg';
       }
 
-      // Verwijder eventuele aanhalingstekens
+      // Verwijder eventuele aanhalingstekens en spaties
       url = url.trim().replace(/['"]/g, '');
+
+      // Als het een lokaal pad is, gebruik het direct
+      if (url.startsWith('/logos/')) {
+        return url;
+      }
 
       // Check voor Google Drive link
       if (url.includes('drive.google.com')) {
-        // Extract file ID
         const fileId = url.match(/[-\w]{25,}/);
         if (fileId) {
-          // Gebruik een directe link naar de afbeelding
           return `https://drive.google.com/uc?export=view&id=${fileId[0]}`;
         }
       }
       
-      return url; // Return de originele URL als het geen Google Drive link is
+      // Als het geen geldig pad is, gebruik placeholder
+      return '/placeholder-logo.svg';
     }
 
     // Verwerk de data uit de spreadsheet
