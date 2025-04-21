@@ -20,14 +20,30 @@ export default async function handler(req, res) {
     }
 
     // Helper functie om logo URLs om te zetten
-    const formatGoogleDriveUrl = (url) => {
+    const formatLogoUrl = (url) => {
       if (!url) return "";
+      
+      // Verwijder localhost referenties als die er nog zijn
+      if (url.includes('localhost:3000')) {
+        return url.split('localhost:3000')[1];
+      }
+      
+      // Als het al een relatief pad is, gebruik het direct
+      if (url.startsWith('/logos/')) {
+        return url;
+      }
+      
+      // Als het alleen de bestandsnaam is, voeg /logos/ toe
+      if (!url.startsWith('/') && !url.includes('://')) {
+        return `/logos/${url}`;
+      }
+      
+      // Google Drive URLs worden ook omgezet naar lokale paden
       if (url.includes('drive.google.com')) {
-        // Haal de bestandsnaam uit de URL
         const fileName = url.split('/').pop();
-        // Gebruik de lokale versie in public/logos
         return `/logos/${fileName}`;
       }
+      
       return url;
     };
 
@@ -35,7 +51,7 @@ export default async function handler(req, res) {
     const facilities = data.values.slice(1).map((row, index) => ({
       id: index + 1,
       naam: row[0] || "Onbekend",
-      logo: formatGoogleDriveUrl(row[1]) || "",
+      logo: formatLogoUrl(row[1]) || "",
       locatie: row[2] || "Onbekend",
       branche: row[3] || "Onbekend",
       type: row[4] || "Onbekend",
