@@ -23,11 +23,10 @@ export default async function handler(req, res) {
     const formatGoogleDriveUrl = (url) => {
       if (!url) return "";
       if (url.includes('drive.google.com')) {
-        // Haal het bestand ID uit de URL
-        const fileId = url.match(/[-\w]{25,}/);
-        if (fileId && fileId[0]) {
-          return `https://drive.google.com/uc?export=view&id=${fileId[0]}`;
-        }
+        // Haal de bestandsnaam uit de URL
+        const fileName = url.split('/').pop();
+        // Gebruik de lokale versie in public/logos
+        return `/logos/${fileName}`;
       }
       return url;
     };
