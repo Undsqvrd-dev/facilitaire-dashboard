@@ -30,7 +30,7 @@ export default async function handler(req, res) {
       url = url.trim().replace(/['"]/g, '');
 
       // Als het een lokaal pad is, gebruik het direct
-      if (url.startsWith('/logos/')) {
+      if (url.startsWith('/Logos/')) {
         return url;
       }
 
