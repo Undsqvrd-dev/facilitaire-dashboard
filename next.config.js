@@ -2,20 +2,16 @@
 const nextConfig = {
   reactStrictMode: true, // Zorgt voor extra controles in React tijdens development
   images: {
+    unoptimized: true,
+    domains: ['drive.google.com'],
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'drive.google.com',
-        pathname: '/uc/**',
+        port: '',
+        pathname: '/**',
       },
-      {
-        protocol: 'https',
-        hostname: '**',
-      }
     ],
-    minimumCacheTTL: 60,
-    unoptimized: true,
-    domains: ['drive.google.com']
   },
   async headers() {
     return [
