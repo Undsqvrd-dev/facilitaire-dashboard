@@ -1,15 +1,8 @@
-import fs from 'fs';
-import https from 'https';
-import path from 'path';
-import fetch from 'node-fetch';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-import dotenv from 'dotenv';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-dotenv.config({ path: '.env.local' });
+const fs = require('fs');
+const https = require('https');
+const path = require('path');
+const fetch = require('node-fetch');
+require('dotenv').config({ path: '.env.local' });
 
 // Check environment variables
 if (!process.env.GOOGLE_SHEETS_ID) {
@@ -35,7 +28,7 @@ async function downloadImage(url, fileName) {
     }
 
     const downloadUrl = `https://drive.google.com/uc?export=view&id=${fileId[0]}`;
-    const filePath = path.join(__dirname, '../public/Logos', fileName);
+    const filePath = path.join(__dirname, '../public/logos', fileName);
 
     https.get(downloadUrl, (response) => {
       if (response.statusCode !== 200) {
@@ -76,7 +69,7 @@ async function main() {
     }
     
     // Maak de Logos directory als die nog niet bestaat
-    const logosDir = path.join(__dirname, '../public/Logos');
+    const logosDir = path.join(__dirname, '../public/logos');
     if (!fs.existsSync(logosDir)) {
       fs.mkdirSync(logosDir, { recursive: true });
     }
