@@ -120,16 +120,13 @@ export default function Sidebar({ facilities = [], onFilterChange, onSelectCompa
               >
                 {facility.logo && (
                   <div className="w-12 h-12 flex-shrink-0">
-                    <Image
+                    <img
                       src={facility.logo}
                       alt={facility.naam}
-                      width={48}
-                      height={48}
                       className="w-full h-full object-contain"
                       onError={(e) => {
-                        e.target.src = '/placeholder-logo.png'; // Zorg dat je een placeholder afbeelding hebt
+                        e.target.src = '/placeholder-logo.png';
                       }}
-                      unoptimized
                     />
                   </div>
                 )}

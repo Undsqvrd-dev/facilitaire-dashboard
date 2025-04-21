@@ -36,17 +36,13 @@ const CompanyPopup = ({ company, onClose }) => {
       <div>
         {company.logo && (
           <div className="company-logo">
-            <Image
+            <img
               src={company.logo}
               alt={company.naam}
-              width={260}
-              height={100}
-              style={{ objectFit: 'contain' }}
+              style={{ width: '100%', height: 'auto', objectFit: 'contain' }}
               onError={(e) => {
                 e.target.src = '/placeholder-logo.png';
               }}
-              priority
-              unoptimized
             />
           </div>
         )}
