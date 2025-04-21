@@ -26,8 +26,8 @@ export default async function handler(req, res) {
         // Extract file ID from various Google Drive URL formats
         const fileId = url.match(/[-\w]{25,}/);
         if (fileId) {
-          // Gebruik de directe thumbnail URL voor betere prestaties
-          return `https://drive.google.com/thumbnail?id=${fileId[0]}&sz=w500`;
+          // Gebruik de uc endpoint met extra parameters voor betere caching
+          return `https://drive.google.com/uc?export=view&id=${fileId[0]}&cache=true`;
         }
       }
       return url;

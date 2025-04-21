@@ -13,8 +13,9 @@ const nextConfig = {
         hostname: '**',
       }
     ],
+    minimumCacheTTL: 60,
     unoptimized: true,
-    domains: ['localhost', 'drive.google.com']
+    domains: ['drive.google.com']
   },
   async headers() {
     return [
