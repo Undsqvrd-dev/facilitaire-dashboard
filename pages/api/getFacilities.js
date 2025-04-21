@@ -25,12 +25,18 @@ export default async function handler(req, res) {
 
     // Helper functie om logo URLs correct te formatteren
     function formatGoogleDriveUrl(url, bedrijfsnaam) {
-      // Check eerst of we een mapping hebben voor dit bedrijf
-      if (companyLogos[bedrijfsnaam]) {
-        return companyLogos[bedrijfsnaam];
+      if (!url || typeof url !== 'string' || url.trim() === '') {
+        return '/placeholder-logo.svg';
       }
 
-      // Als er geen mapping is, gebruik de placeholder
+      // Verwijder eventuele aanhalingstekens en spaties
+      url = url.trim().replace(/['"]/g, '');
+      
+      // Als het een geldig pad is, gebruik het direct
+      if (url.startsWith('/logos/')) {
+        return url;
+      }
+
       return '/placeholder-logo.svg';
     }
 

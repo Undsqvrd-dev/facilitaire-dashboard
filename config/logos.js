@@ -5,6 +5,6 @@ export const companyLogos = {
   'Bijzaak': '/logos/bijzaak.png',
   'Heyday': '/logos/heyday.png',
   'Huawei': '/logos/huawei.png',
-  'SKB Ziekenhuis': '/logos/skbziekenhuis.png',
-  'WUR': '/logos/wur.png'
+  'Streekziekenhuis': '/logos/SKBziekenhuis.png',
+  'Wageningen Univ': '/logos/wur.png'
 }; 
