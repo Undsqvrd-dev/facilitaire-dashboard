@@ -123,17 +123,19 @@
   min-height: 200px;
   background-color: white;
   border-radius: 8px;
-  padding: 2rem;
+  padding: 2.5rem;
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 2rem;
+  gap: 3rem;
   z-index: 1000;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  margin-left: 150px; /* Compensatie voor de sidebar */
 }
 
 .company-logo {
   display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
+  align-items: flex-start; /* Veranderd van center naar flex-start */
+  margin-bottom: 1.5rem;
 }
 
 .detail-popup h2 {
@@ -225,5 +227,27 @@
 /* Zorg dat de Leaflet controls onder de topbar blijven */
 .leaflet-top {
   z-index: 1000;
+}
+
+/* Media query voor kleinere schermen */
+@media (max-width: 1440px) {
+  .detail-popup {
+    width: 900px;
+    margin-left: 120px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .detail-popup {
+    width: 800px;
+    margin-left: 100px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .detail-popup {
+    width: 700px;
+    margin-left: 80px;
+  }
 }
 
