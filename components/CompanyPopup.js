@@ -39,10 +39,10 @@ const CompanyPopup = ({ company, onClose }) => {
             src={company.logo || "/placeholder-logo.svg"}
             alt={`${company.naam} logo`}
             style={{ 
-              width: '320px',
-              height: '140px',
+              width: '280px',
+              height: '60px',
               objectFit: 'contain',
-              marginBottom: '2rem'
+              marginBottom: '1rem'
             }}
             onError={(e) => {
               console.log(`Logo laad fout voor ${company.naam}:`, company.logo);
@@ -54,7 +54,7 @@ const CompanyPopup = ({ company, onClose }) => {
           />
         </div>
         <h2>{company.naam}</h2>
-        <p>{company.omschrijving}</p>
+        <p style={{ fontSize: '0.9rem', lineHeight: '1.5', color: '#4B5563' }}>{company.omschrijving}</p>
       </div>
 
       {/* Rechter kolom met info box */}
