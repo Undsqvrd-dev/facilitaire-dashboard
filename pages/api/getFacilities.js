@@ -26,18 +26,26 @@ export default async function handler(req, res) {
     // Helper functie om logo URLs correct te formatteren
     function formatGoogleDriveUrl(url) {
       if (!url || typeof url !== 'string' || url.trim() === '') {
-        return null;
+        return '/placeholder-logo.svg';
       }
 
       // Verwijder eventuele aanhalingstekens en spaties
       url = url.trim().replace(/['"]/g, '');
       
-      // Als het een geldig pad is, gebruik het direct
+      // Als het een Google Drive URL is
+      if (url.includes('drive.google.com')) {
+        const fileId = url.match(/[-\w]{25,}/);
+        if (fileId) {
+          return `https://drive.google.com/uc?export=view&id=${fileId[0]}`;
+        }
+      }
+      
+      // Als het een lokaal pad is
       if (url.startsWith('/logos/')) {
         return url;
       }
 
-      return null;
+      return '/placeholder-logo.svg';
     }
 
     // Verwerk de data uit de spreadsheet
