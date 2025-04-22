@@ -42,7 +42,7 @@ const CompanyPopup = ({ company, onClose }) => {
               width: '260px',
               height: '100px',
               objectFit: 'contain',
-              backgroundColor: '#f3f4f6'
+              marginBottom: '2rem'
             }}
             onError={(e) => {
               console.log(`Logo laad fout voor ${company.naam}:`, company.logo);
