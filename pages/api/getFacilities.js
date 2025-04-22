@@ -25,7 +25,7 @@ export default async function handler(req, res) {
 
     // Helper functie om logo URLs correct te formatteren
     function formatGoogleDriveUrl(url) {
-      console.log("Originele URL:", url); // Debug logging
+      console.log("Originele URL:", url);
 
       if (!url || typeof url !== 'string') {
         console.log("Ongeldige URL, gebruik placeholder");
@@ -33,7 +33,7 @@ export default async function handler(req, res) {
       }
 
       url = url.trim().replace(/['"]/g, '');
-      console.log("URL na trim:", url); // Debug logging
+      console.log("URL na trim:", url);
 
       // Als het een Google Drive URL is
       if (url.includes('drive.google.com')) {
@@ -47,7 +47,11 @@ export default async function handler(req, res) {
 
       // Als het een lokaal pad is (met of zonder leading slash)
       if (url.includes('logos/')) {
-        const formattedUrl = url.startsWith('/') ? url : `/logos/${url.replace('logos/', '')}`;
+        // Haal de bestandsnaam uit het pad
+        const filename = url.split('/').pop();
+        // Voeg '2' toe voor de extensie
+        const newFilename = filename.replace('.png', '2.png');
+        const formattedUrl = `/logos/${newFilename}`;
         console.log("Lokaal pad geformatteerd:", formattedUrl);
         return formattedUrl;
       }
