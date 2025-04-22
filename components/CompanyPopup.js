@@ -45,7 +45,11 @@ const CompanyPopup = ({ company, onClose }) => {
               backgroundColor: '#f3f4f6'
             }}
             onError={(e) => {
+              console.log(`Logo laad fout voor ${company.naam}:`, company.logo);
               e.target.src = '/placeholder-logo.svg';
+            }}
+            onLoad={() => {
+              console.log(`Logo succesvol geladen voor ${company.naam}:`, company.logo);
             }}
           />
         </div>

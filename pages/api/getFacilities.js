@@ -25,42 +25,55 @@ export default async function handler(req, res) {
 
     // Helper functie om logo URLs correct te formatteren
     function formatGoogleDriveUrl(url) {
-      if (!url || typeof url !== 'string' || url.trim() === '') {
+      console.log("Originele URL:", url); // Debug logging
+
+      if (!url || typeof url !== 'string') {
+        console.log("Ongeldige URL, gebruik placeholder");
         return '/placeholder-logo.svg';
       }
 
-      // Verwijder eventuele aanhalingstekens en spaties
       url = url.trim().replace(/['"]/g, '');
-      
+      console.log("URL na trim:", url); // Debug logging
+
       // Als het een Google Drive URL is
       if (url.includes('drive.google.com')) {
         const fileId = url.match(/[-\w]{25,}/);
         if (fileId) {
-          return `https://drive.google.com/uc?export=view&id=${fileId[0]}`;
+          const formattedUrl = `https://drive.google.com/uc?export=view&id=${fileId[0]}`;
+          console.log("Google Drive URL geformatteerd:", formattedUrl);
+          return formattedUrl;
         }
       }
-      
-      // Als het een lokaal pad is
-      if (url.startsWith('/logos/')) {
-        return url;
+
+      // Als het een lokaal pad is (met of zonder leading slash)
+      if (url.includes('logos/')) {
+        const formattedUrl = url.startsWith('/') ? url : `/logos/${url.replace('logos/', '')}`;
+        console.log("Lokaal pad geformatteerd:", formattedUrl);
+        return formattedUrl;
       }
 
+      console.log("Geen geldig pad gevonden, gebruik placeholder");
       return '/placeholder-logo.svg';
     }
 
     // Verwerk de data uit de spreadsheet
-    const facilities = data.values.slice(1).map((row, index) => ({
-      id: index + 1,
-      naam: row[0] || "Onbekend",
-      logo: formatGoogleDriveUrl(row[1]),
-      locatie: row[2] || "Onbekend",
-      branche: row[3] || "Onbekend",
-      type: row[4] || "Onbekend",
-      website: row[5] || "",
-      lat: row[6] ? parseFloat(row[6].replace(',', '.')) : null,
-      lng: row[7] ? parseFloat(row[7].replace(',', '.')) : null,
-      omschrijving: row[8] || ""
-    }));
+    const facilities = data.values.slice(1).map((row, index) => {
+      const facility = {
+        id: index + 1,
+        naam: row[0] || "Onbekend",
+        logo: formatGoogleDriveUrl(row[1]),
+        locatie: row[2] || "Onbekend",
+        branche: row[3] || "Onbekend",
+        type: row[4] || "Onbekend",
+        website: row[5] || "",
+        lat: row[6] ? parseFloat(row[6].replace(',', '.')) : null,
+        lng: row[7] ? parseFloat(row[7].replace(',', '.')) : null,
+        omschrijving: row[8] || ""
+      };
+      
+      console.log(`Facility ${facility.naam} - Logo pad:`, facility.logo);
+      return facility;
+    });
 
     // Log de volledige response voor debugging
     console.log("API Response:", JSON.stringify(facilities, null, 2));
