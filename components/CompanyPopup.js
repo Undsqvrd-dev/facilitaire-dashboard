@@ -46,7 +46,8 @@ const CompanyPopup = ({ company, onClose }) => {
                 backgroundColor: '#f3f4f6'
               }}
               onError={(e) => {
-                e.target.src = '/placeholder-logo.svg';
+                const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+                e.target.src = `${baseUrl}/placeholder-logo.svg`;
               }}
             />
           </div>
