@@ -34,24 +34,18 @@ const CompanyPopup = ({ company, onClose }) => {
     <div className="detail-popup active">
       {/* Linker kolom met logo en omschrijving */}
       <div>
-        {company.logo && (
-          <div className="company-logo">
-            <img
-              src={company.logo}
-              alt={`${company.naam} logo`}
-              style={{ 
-                width: '260px',
-                height: '100px',
-                objectFit: 'contain',
-                backgroundColor: '#f3f4f6'
-              }}
-              onError={(e) => {
-                const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
-                e.target.src = `${baseUrl}/placeholder-logo.svg`;
-              }}
-            />
-          </div>
-        )}
+        <div className="company-logo">
+          <img
+            src={company.logo || '/placeholder-logo.svg'}
+            alt={`${company.naam} logo`}
+            style={{ 
+              width: '260px',
+              height: '100px',
+              objectFit: 'contain',
+              backgroundColor: '#f3f4f6'
+            }}
+          />
+        </div>
         <h2>{company.naam}</h2>
         <p>{company.omschrijving}</p>
       </div>

@@ -3,21 +3,7 @@ const nextConfig = {
   reactStrictMode: true, // Zorgt voor extra controles in React tijdens development
   images: {
     unoptimized: true,
-    domains: ['drive.google.com', 'localhost'],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'drive.google.com',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '3000',
-        pathname: '/logos/**',
-      }
-    ],
+    domains: ['drive.google.com'],
   },
   async headers() {
     return [
@@ -49,6 +35,8 @@ const nextConfig = {
     }
     return config;
   },
+  // Voeg output configuratie toe
+  output: 'standalone',
 };
 
 module.exports = nextConfig;

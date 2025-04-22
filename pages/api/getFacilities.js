@@ -24,42 +24,35 @@ export default async function handler(req, res) {
     }
 
     // Helper functie om logo URLs correct te formatteren
-    function formatGoogleDriveUrl(url, bedrijfsnaam) {
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
-      const placeholder = `${baseUrl}/placeholder-logo.svg`;
-
+    function formatGoogleDriveUrl(url) {
       if (!url || typeof url !== 'string' || url.trim() === '') {
-        return placeholder;
+        return null;
       }
 
       // Verwijder eventuele aanhalingstekens en spaties
       url = url.trim().replace(/['"]/g, '');
       
-      // Als het een geldig pad is, gebruik het direct met de base URL
+      // Als het een geldig pad is, gebruik het direct
       if (url.startsWith('/logos/')) {
-        return `${baseUrl}${url}`;
+        return url;
       }
 
-      return placeholder;
+      return null;
     }
 
     // Verwerk de data uit de spreadsheet
-    const facilities = data.values.slice(1).map((row, index) => {
-      const facility = {
-        id: index + 1,
-        naam: row[0] || "Onbekend",
-        logo: formatGoogleDriveUrl(row[1], row[0]),
-        locatie: row[2] || "Onbekend",
-        branche: row[3] || "Onbekend",
-        type: row[4] || "Onbekend",
-        website: row[5] || "",
-        lat: row[6] ? parseFloat(row[6].replace(',', '.')) : null,
-        lng: row[7] ? parseFloat(row[7].replace(',', '.')) : null,
-        omschrijving: row[8] || ""
-      };
-      console.log(`Processed facility ${facility.naam}:`, facility); // Debug log
-      return facility;
-    });
+    const facilities = data.values.slice(1).map((row, index) => ({
+      id: index + 1,
+      naam: row[0] || "Onbekend",
+      logo: formatGoogleDriveUrl(row[1]),
+      locatie: row[2] || "Onbekend",
+      branche: row[3] || "Onbekend",
+      type: row[4] || "Onbekend",
+      website: row[5] || "",
+      lat: row[6] ? parseFloat(row[6].replace(',', '.')) : null,
+      lng: row[7] ? parseFloat(row[7].replace(',', '.')) : null,
+      omschrijving: row[8] || ""
+    }));
 
     // Log de volledige response voor debugging
     console.log("API Response:", JSON.stringify(facilities, null, 2));
