@@ -126,7 +126,7 @@
   padding: 2rem;
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 2.5rem;
+  gap: 1.2rem;
   z-index: 1000;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   margin-left: 150px;
@@ -145,11 +145,11 @@
 }
 
 .detail-popup p {
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   line-height: 1.5;
   color: #4B5563;
   margin-bottom: 1rem;
-  max-width: 90%;
+  max-width: 95%;
 }
 
 .detail-popup .info-box {
