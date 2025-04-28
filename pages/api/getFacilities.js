@@ -49,9 +49,7 @@ export default async function handler(req, res) {
       if (url.includes('logos/')) {
         // Haal de bestandsnaam uit het pad
         const filename = url.split('/').pop();
-        // Voeg '2' toe voor de extensie
-        const newFilename = filename.replace('.png', '2.png');
-        const formattedUrl = `/logos/${newFilename}`;
+        const formattedUrl = `/logos/${filename}`;
         console.log("Lokaal pad geformatteerd:", formattedUrl);
         return formattedUrl;
       }

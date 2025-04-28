@@ -36,10 +36,10 @@ const CompanyPopup = ({ company, onClose }) => {
       <div>
         <div className="company-logo">
           <img
-            src={company.logo || "/placeholder-logo.svg"}
+            src={company.logo}
             alt={`${company.naam} logo`}
             style={{ 
-              width: '280px',
+              width: '180px',
               height: '60px',
               objectFit: 'contain',
               marginBottom: '1rem'
