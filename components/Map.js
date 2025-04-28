@@ -11,8 +11,9 @@ const MapUpdater = ({ selectedCompany, onSelectCompany }) => {
 
   useEffect(() => {
     if (selectedCompany && selectedCompany.lat && selectedCompany.lng) {
-      // Zoom in naar geselecteerd bedrijf
-      map.flyTo([selectedCompany.lat, selectedCompany.lng], 14, {
+      // Forceer altijd flyTo naar zoom 16, ook als je al op 16 zit
+      map.flyTo([selectedCompany.lat, selectedCompany.lng],17, {
+        animate: true,
         duration: 1.2,
         easeLinearity: 0.25,
       });
@@ -20,6 +21,7 @@ const MapUpdater = ({ selectedCompany, onSelectCompany }) => {
       // Zoom uit naar overzicht van Nederland
       console.log("🗺️ Zoom uit naar overzicht");
       map.flyTo(defaultCenter, defaultZoom, {
+        animate: true,
         duration: 1.2,
         easeLinearity: 0.25,
       });
