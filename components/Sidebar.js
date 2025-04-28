@@ -125,7 +125,7 @@ export default function Sidebar({ facilities = [], onFilterChange, onSelectCompa
                       alt={facility.naam}
                       className="w-full h-full object-contain"
                       onError={(e) => {
-                        e.target.src = '/placeholder-logo.png';
+                        e.target.src = '/placeholder-logo.svg';
                       }}
                     />
                   </div>

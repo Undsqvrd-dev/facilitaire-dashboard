@@ -155,13 +155,15 @@ const Map = ({ filters, facilities = [], selectedCompany, onSelectCompany }) => 
             >
               {company.logo && (
                 <div className="marker-logo-container" style={{ width: width + 'px', height: height + 'px' }}>
-                  <img
+                  <Image
                     src={company.logo}
                     alt={company.naam}
-                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    width={width}
+                    height={height}
                     className="marker-logo"
+                    style={{ objectFit: 'contain' }}
                     onError={(e) => {
-                      e.target.src = '/placeholder-logo.png';
+                      e.target.src = '/placeholder-logo.svg';
                     }}
                   />
                 </div>
