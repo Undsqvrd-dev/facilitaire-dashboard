@@ -135,6 +135,8 @@ const Map = ({ filters, facilities = [], selectedCompany, onSelectCompany }) => 
       {filteredFacilities.map((company) => {
         const isSelected = selectedCompany?.id === company.id;
         const [width, height] = getMarkerSize(mapZoom, isSelected);
+        const padding = 4; // padding uit CSS
+        const totalHeight = height + 2 * padding;
         return (
           <Marker
             key={company.id}
@@ -144,9 +146,9 @@ const Map = ({ filters, facilities = [], selectedCompany, onSelectCompany }) => 
             }}
             icon={L.divIcon({
               className: 'custom-marker',
-              iconSize: [width, height],
-              iconAnchor: [width/2, height],
-              tooltipAnchor: [0, -height/2]
+              iconSize: [width, totalHeight],
+              iconAnchor: [width / 2, totalHeight],
+              tooltipAnchor: [0, -totalHeight / 2]
             })}
           >
             <Tooltip 
