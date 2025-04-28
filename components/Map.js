@@ -135,8 +135,22 @@ const Map = ({ filters, facilities = [], selectedCompany, onSelectCompany }) => 
       {filteredFacilities.map((company) => {
         const isSelected = selectedCompany?.id === company.id;
         const [width, height] = getMarkerSize(mapZoom, isSelected);
-        const padding = 4; // padding uit CSS
-        const totalHeight = height + 2 * padding;
+        const totalHeight = height + 0; // geen extra padding
+        const markerHtml = `
+          <div style="
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+            width: ${width}px;
+            height: ${height}px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+          ">
+            <img src='${company.logo}' alt='${company.naam}' style="width: 90%; height: 90%; object-fit: contain; display: block;" onerror="this.src='/placeholder-logo.svg'" />
+          </div>
+        `;
         return (
           <Marker
             key={company.id}
@@ -146,34 +160,11 @@ const Map = ({ filters, facilities = [], selectedCompany, onSelectCompany }) => 
             }}
             icon={L.divIcon({
               className: 'custom-marker',
-              iconSize: [width, totalHeight],
-              iconAnchor: [width / 2, totalHeight],
-              tooltipAnchor: [0, -totalHeight / 2]
+              iconSize: [width, height],
+              iconAnchor: [width / 2, height],
+              html: markerHtml
             })}
-          >
-            <Tooltip 
-              permanent={true}
-              direction="top" 
-              className={`marker-tooltip ${isSelected ? 'marker-tooltip-large' : ''}`}
-              interactive={true}
-            >
-              {company.logo && (
-                <div className="marker-logo-container" style={{ width: width + 'px', height: height + 'px' }}>
-                  <Image
-                    src={company.logo}
-                    alt={company.naam}
-                    width={width}
-                    height={height}
-                    className="marker-logo"
-                    style={{ objectFit: 'contain' }}
-                    onError={(e) => {
-                      e.target.src = '/placeholder-logo.svg';
-                    }}
-                  />
-                </div>
-              )}
-            </Tooltip>
-          </Marker>
+          />
         );
       })}
 
