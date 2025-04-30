@@ -274,13 +274,22 @@
     width: 100%;
   }
 
+  /* Verberg zoom controls op mobiel */
+  .leaflet-control-zoom {
+    display: none;
+  }
+
   /* Mobiele popup styling */
   .detail-popup {
     width: 90%;
     margin-left: 0;
     grid-template-columns: 1fr;
     padding: 1.5rem;
-    bottom: 1rem;
+    max-height: 50vh;
+    overflow-y: auto;
+    bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
 
   .detail-popup .company-logo {
@@ -295,6 +304,28 @@
   .detail-popup p {
     font-size: 0.8rem;
     margin-bottom: 0.8rem;
+    max-height: 25vh;
+    overflow-y: auto;
+  }
+
+  /* Verbeterde scrollbar styling voor de popup op mobiel */
+  .detail-popup::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .detail-popup::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+  }
+
+  .detail-popup::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 4px;
+  }
+
+  .detail-popup {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f5f9;
   }
 }
 
