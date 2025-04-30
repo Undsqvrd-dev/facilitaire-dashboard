@@ -165,7 +165,7 @@ const Map = ({ filters, facilities = [], selectedCompany, onSelectCompany, onCli
               click: () => handleMarkerClick(company)
             }}
             icon={L.divIcon({
-              className: 'custom-marker',
+              className: `custom-marker ${isSelected ? 'selected' : ''}`,
               iconSize: [width, height],
               iconAnchor: [width / 2, height],
               html: markerHtml
