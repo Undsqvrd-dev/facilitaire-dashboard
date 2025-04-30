@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Sidebar from "@/components/Sidebar";
 import CompanyPopup from "@/components/CompanyPopup";
+import MobileMenuButton from "@/components/MobileMenuButton";
 
 const Map = dynamic(() => import("../components/Map"), { ssr: false });
 
@@ -9,6 +10,7 @@ export default function Home() {
   const [filters, setFilters] = useState({ type: "Alles", branche: "Alles" });
   const [facilities, setFacilities] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     fetch("/api/getFacilities")
@@ -54,6 +56,24 @@ export default function Home() {
       lat: parseFloat(company.lat),
       lng: parseFloat(company.lng),
     });
+
+    // Sluit de sidebar op mobiel wanneer een bedrijf wordt geselecteerd
+    if (window.innerWidth <= 768) {
+      setIsSidebarOpen(false);
+    }
+  };
+
+  const handleMapClick = () => {
+    if (window.innerWidth <= 768) {
+      setIsSidebarOpen(false);
+    }
+    setSelectedCompany(null);
+  };
+
+  const handleMapInteraction = () => {
+    if (window.innerWidth <= 768) {
+      setIsSidebarOpen(false);
+    }
   };
 
   return (
@@ -68,14 +88,18 @@ export default function Home() {
       <div className="flex flex-col h-screen bg-background pt-[60px]">
         <div className="flex-1 relative z-10">
           <div className="flex h-full">
-            <div className="w-[300px]">
-              <Sidebar
-                facilities={facilities}
-                onFilterChange={handleFilterChange}
-                onSelectCompany={handleSelectCompany}
-                selectedCompany={selectedCompany}
-              />
-            </div>
+            <MobileMenuButton 
+              isOpen={isSidebarOpen} 
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)} 
+            />
+            
+            <Sidebar
+              facilities={facilities}
+              onFilterChange={handleFilterChange}
+              onSelectCompany={handleSelectCompany}
+              selectedCompany={selectedCompany}
+              isOpen={isSidebarOpen}
+            />
 
             <div className="flex-1">
               <Map
@@ -83,6 +107,9 @@ export default function Home() {
                 facilities={facilities}
                 selectedCompany={selectedCompany}
                 onSelectCompany={handleSelectCompany}
+                onClick={handleMapClick}
+                onDrag={handleMapInteraction}
+                onZoom={handleMapInteraction}
               />
             </div>
           </div>

@@ -50,6 +50,9 @@
   top: 64px;
   left: 0;
   bottom: 0;
+  z-index: 40;
+  transform: translateX(0);
+  transition: transform 300ms ease-in-out;
   /* Scrollbar styling */
   scrollbar-width: thin;
   scrollbar-color: #cbd5e1 #f1f5f9;
@@ -251,6 +254,47 @@
   .detail-popup {
     width: 700px;
     margin-left: 80px;
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 85%;
+    max-width: 300px;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar:not(.is-open) {
+    transform: translateX(-100%);
+  }
+
+  .map-container {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  /* Mobiele popup styling */
+  .detail-popup {
+    width: 90%;
+    margin-left: 0;
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+    bottom: 1rem;
+  }
+
+  .detail-popup .company-logo {
+    margin-bottom: 1rem;
+  }
+
+  .detail-popup .info-box {
+    margin-top: 1rem;
+    padding: 1rem;
+  }
+
+  .detail-popup p {
+    font-size: 0.8rem;
+    margin-bottom: 0.8rem;
   }
 }
 

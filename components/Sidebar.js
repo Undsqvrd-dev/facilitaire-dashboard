@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import CompanyPopup from "./CompanyPopup"; // Zorg dat dit component bestaat
 import Image from 'next/image';
 
-export default function Sidebar({ facilities = [], onFilterChange, onSelectCompany, selectedCompany }) {
+export default function Sidebar({ facilities = [], onFilterChange, onSelectCompany, selectedCompany, isOpen = true }) {
   const [selectedType, setSelectedType] = useState("Alles");
   const [selectedBranche, setSelectedBranche] = useState("Alles");
 
@@ -51,7 +51,7 @@ export default function Sidebar({ facilities = [], onFilterChange, onSelectCompa
   };
 
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${isOpen ? 'is-open' : ''}`}>
       <div className="sidebar-content">
         <h2 className="text-xl font-bold mb-4">Facilitaire bedrijven</h2>
         

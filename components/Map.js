@@ -46,7 +46,7 @@ const MapUpdater = ({ selectedCompany, onSelectCompany }) => {
   return null;
 };
 
-const Map = ({ filters, facilities = [], selectedCompany, onSelectCompany }) => {
+const Map = ({ filters, facilities = [], selectedCompany, onSelectCompany, onClick, onDrag, onZoom }) => {
   const [mapZoom, setMapZoom] = useState(8);
 
   const getMarkerSize = (zoom, isSelected) => {
@@ -91,6 +91,7 @@ const Map = ({ filters, facilities = [], selectedCompany, onSelectCompany }) => 
 
   const handleZoomEnd = (e) => {
     setMapZoom(e.target.getZoom());
+    onZoom?.();
   };
 
   const filteredFacilities = facilities.filter((facility) => {
@@ -115,7 +116,10 @@ const Map = ({ filters, facilities = [], selectedCompany, onSelectCompany }) => 
       maxBounds={bounds}
       maxBoundsViscosity={1.0}
       className="h-full w-full z-0"
-      onClick={() => onSelectCompany(null)}
+      onClick={() => {
+        onClick?.();
+        onSelectCompany(null);
+      }}
       scrollWheelZoom={true}
       doubleClickZoom={true}
       dragging={true}
@@ -123,7 +127,9 @@ const Map = ({ filters, facilities = [], selectedCompany, onSelectCompany }) => 
       zoomDelta={1}
       wheelDebounceTime={100}
       eventHandlers={{
-        zoomend: handleZoomEnd
+        zoomend: handleZoomEnd,
+        dragstart: onDrag,
+        dragend: onDrag
       }}
     >
       <TileLayer
