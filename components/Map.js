@@ -11,12 +11,27 @@ const MapUpdater = ({ selectedCompany, onSelectCompany }) => {
 
   useEffect(() => {
     if (selectedCompany && selectedCompany.lat && selectedCompany.lng) {
-      // Forceer altijd flyTo naar zoom 16, ook als je al op 16 zit
-      map.flyTo([selectedCompany.lat, selectedCompany.lng],17, {
-        animate: true,
-        duration: 1.2,
-        easeLinearity: 0.25,
-      });
+      // Bereken de offset voor mobiel
+      const isMobile = window.innerWidth <= 768;
+      const targetPoint = map.project([selectedCompany.lat, selectedCompany.lng], 17);
+      
+      if (isMobile) {
+        // Verschuif het punt 25% naar boven op mobiel (75% van de hoogte)
+        targetPoint.y -= (window.innerHeight * 0.25);
+        const newCenter = map.unproject(targetPoint, 17);
+        map.flyTo(newCenter, 17, {
+          animate: true,
+          duration: 1.2,
+          easeLinearity: 0.25,
+        });
+      } else {
+        // Desktop gedrag blijft hetzelfde
+        map.flyTo([selectedCompany.lat, selectedCompany.lng], 17, {
+          animate: true,
+          duration: 1.2,
+          easeLinearity: 0.25,
+        });
+      }
     } else {
       // Zoom uit naar overzicht van Nederland
       console.log("🗺️ Zoom uit naar overzicht");
@@ -165,7 +180,7 @@ const Map = ({ filters, facilities = [], selectedCompany, onSelectCompany, onCli
               click: () => handleMarkerClick(company)
             }}
             icon={L.divIcon({
-              className: `custom-marker ${isSelected ? 'selected' : ''}`,
+              className: 'custom-marker',
               iconSize: [width, height],
               iconAnchor: [width / 2, height],
               html: markerHtml
