@@ -5,9 +5,12 @@ const MobileMenuButton = ({ isOpen, onClick }) => {
     <button
       className={`fixed top-[80px] z-50 bg-white p-3 rounded-full shadow-lg lg:hidden transition-all duration-300 ${
         isOpen 
-          ? 'left-[calc(58vw-24px)]' // Als sidebar open is, plaats knop aan rechterkant
-          : 'left-4' // Als sidebar dicht is, plaats knop links
+          ? 'left-[calc(85%-12px)]' // Positie wanneer sidebar open is (85% van scherm - helft van knop breedte)
+          : 'left-4' // Positie wanneer sidebar dicht is
       }`}
+      style={{
+        transform: isOpen ? 'translateX(100%)' : 'none' // Verschuif de knop naar rechts wanneer sidebar open is
+      }}
       onClick={onClick}
       aria-label={isOpen ? 'Sluit menu' : 'Open menu'}
     >
