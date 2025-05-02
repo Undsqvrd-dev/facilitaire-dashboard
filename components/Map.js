@@ -7,31 +7,16 @@ import Image from 'next/image';
 const MapUpdater = ({ selectedCompany, onSelectCompany }) => {
   const map = useMap();
   const defaultCenter = [52.1326, 5.2913];
-  const defaultZoom = 8;
+  const defaultZoom = 9;
 
   useEffect(() => {
     if (selectedCompany && selectedCompany.lat && selectedCompany.lng) {
-      // Bereken de offset voor mobiel
-      const isMobile = window.innerWidth <= 768;
-      const targetPoint = map.project([selectedCompany.lat, selectedCompany.lng], 17);
-      
-      if (isMobile) {
-        // Verschuif het punt 25% naar boven op mobiel (75% van de hoogte)
-        targetPoint.y -= (window.innerHeight * 0.25);
-        const newCenter = map.unproject(targetPoint, 17);
-        map.flyTo(newCenter, 17, {
-          animate: true,
-          duration: 1.2,
-          easeLinearity: 0.25,
-        });
-      } else {
-        // Desktop gedrag blijft hetzelfde
-        map.flyTo([selectedCompany.lat, selectedCompany.lng], 17, {
-          animate: true,
-          duration: 1.2,
-          easeLinearity: 0.25,
-        });
-      }
+      // Forceer altijd flyTo naar zoom 16, ook als je al op 16 zit
+      map.flyTo([selectedCompany.lat, selectedCompany.lng],17, {
+        animate: true,
+        duration: 1.2,
+        easeLinearity: 0.25,
+      });
     } else {
       // Zoom uit naar overzicht van Nederland
       console.log("🗺️ Zoom uit naar overzicht");
@@ -62,7 +47,7 @@ const MapUpdater = ({ selectedCompany, onSelectCompany }) => {
 };
 
 const Map = ({ filters, facilities = [], selectedCompany, onSelectCompany, onClick, onDrag, onZoom }) => {
-  const [mapZoom, setMapZoom] = useState(8);
+  const [mapZoom, setMapZoom] = useState(9);
 
   const getMarkerSize = (zoom, isSelected) => {
     let baseSize;
@@ -126,8 +111,8 @@ const Map = ({ filters, facilities = [], selectedCompany, onSelectCompany, onCli
   return (
     <MapContainer
       center={[52.1326, 5.2913]}
-      zoom={8}
-      minZoom={8}
+      zoom={9}
+      minZoom={9}
       maxBounds={bounds}
       maxBoundsViscosity={1.0}
       className="h-full w-full z-0"
