@@ -50,7 +50,7 @@
   top: 64px;
   left: 0;
   bottom: 0;
-  z-index: 40;
+  z-index: 1100;
   transform: translateX(0);
   transition: transform 300ms ease-in-out;
   /* Scrollbar styling */
@@ -130,7 +130,7 @@
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 1.2rem;
-  z-index: 400;
+  z-index: 1000;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   margin-left: 150px;
 }
@@ -148,11 +148,13 @@
 }
 
 .detail-popup p {
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   line-height: 1.5;
   color: #4B5563;
   margin-bottom: 1rem;
   max-width: 95%;
+  overflow: visible;
+  max-height: none;
 }
 
 .detail-popup .info-box {
@@ -285,7 +287,7 @@
     margin-left: 0;
     grid-template-columns: 1fr;
     padding: 1.5rem;
-    max-height: 50vh;
+    max-height: 80vh;
     overflow-y: auto;
     bottom: 0;
     border-bottom-left-radius: 0;
@@ -304,8 +306,8 @@
   .detail-popup p {
     font-size: 0.8rem;
     margin-bottom: 0.8rem;
-    max-height: 25vh;
-    overflow-y: auto;
+    max-height: none;
+    overflow: visible;
   }
 
   /* Verbeterde scrollbar styling voor de popup op mobiel */
@@ -327,19 +329,5 @@
     scrollbar-width: thin;
     scrollbar-color: #cbd5e1 #f1f5f9;
   }
-}
-
-/* Marker styling */
-.custom-marker {
-  z-index: 500 !important;
-}
-
-/* Zorg dat de marker container ook een hogere z-index heeft */
-.leaflet-marker-pane {
-  z-index: 500 !important;
-}
-
-.leaflet-popup-pane {
-  z-index: 500 !important;
 }
 
