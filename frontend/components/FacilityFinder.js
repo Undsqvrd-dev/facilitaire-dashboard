@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Sidebar from "./Sidebar";
 import CompanyPopup from "./CompanyPopup";
+import CompanyPopupMobile from "./CompanyPopupMobile";
 import MobileMenuButton from "./MobileMenuButton";
 
 const Map = dynamic(() => import("./Map"), { ssr: false });
@@ -11,6 +12,14 @@ const FacilityFinder = ({ mode = "public", user = null }) => {
   const [facilities, setFacilities] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIsMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
 
   useEffect(() => {
     fetch("/api/getFacilities")
@@ -47,20 +56,20 @@ const FacilityFinder = ({ mode = "public", user = null }) => {
       lng: parseFloat(company.lng),
     });
 
-    if (window.innerWidth <= 768) {
+    if (isMobile) {
       setIsSidebarOpen(false);
     }
   };
 
   const handleMapClick = () => {
-    if (window.innerWidth <= 768) {
+    if (isMobile) {
       setIsSidebarOpen(false);
     }
     setSelectedCompany(null);
   };
 
   const handleMapInteraction = () => {
-    if (window.innerWidth <= 768) {
+    if (isMobile) {
       setIsSidebarOpen(false);
     }
   };
@@ -106,13 +115,20 @@ const FacilityFinder = ({ mode = "public", user = null }) => {
                 mode={mode}
               />
               {selectedCompany && (
-                <CompanyPopup 
-                  company={selectedCompany} 
-                  onClose={() => setSelectedCompany(null)}
-                  mode={mode}
-                  user={user}
-                  inMapContainer
-                />
+                isMobile ? (
+                  <CompanyPopupMobile
+                    company={selectedCompany}
+                    onClose={() => setSelectedCompany(null)}
+                  />
+                ) : (
+                  <CompanyPopup
+                    company={selectedCompany}
+                    onClose={() => setSelectedCompany(null)}
+                    mode={mode}
+                    user={user}
+                    inMapContainer
+                  />
+                )
               )}
             </div>
           </div>

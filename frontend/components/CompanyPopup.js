@@ -5,11 +5,13 @@ const CompanyPopup = ({ company, onClose, mode = "public", user = null, inMapCon
 
   // Scroll lock bij openen
   useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, []);
+    if (!inMapContainer) {
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = "auto";
+      };
+    }
+  }, [inMapContainer]);
 
   // ESC sluit popup
   useEffect(() => {
@@ -32,16 +34,19 @@ const CompanyPopup = ({ company, onClose, mode = "public", user = null, inMapCon
   }, []);
 
   const handleClose = () => {
-    document.body.style.overflow = 'auto';
+    if (!inMapContainer) {
+      document.body.style.overflow = 'auto';
+    }
     onClose();
   };
 
   if (!company) return null;
 
   if (mode === "public") {
+    const popupClasses = `detail-popup active ${inMapContainer ? 'in-map' : ''}`;
+
     return (
-      <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center">
-        <div ref={popupRef} className="detail-popup active">
+      <div className={popupClasses} ref={popupRef}>
           {/* Linker kolom met logo en omschrijving */}
           <div>
             <div className="company-logo">
@@ -99,7 +104,6 @@ const CompanyPopup = ({ company, onClose, mode = "public", user = null, inMapCon
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
-        </div>
       </div>
     );
   }
