@@ -15,10 +15,10 @@ const FacilityFinder = ({ mode = "public", user = null }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkIsMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkIsMobile();
-    window.addEventListener("resize", checkIsMobile);
-    return () => window.removeEventListener("resize", checkIsMobile);
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   useEffect(() => {
@@ -56,20 +56,20 @@ const FacilityFinder = ({ mode = "public", user = null }) => {
       lng: parseFloat(company.lng),
     });
 
-    if (isMobile) {
+    if (window.innerWidth <= 768) {
       setIsSidebarOpen(false);
     }
   };
 
   const handleMapClick = () => {
-    if (isMobile) {
+    if (window.innerWidth <= 768) {
       setIsSidebarOpen(false);
     }
     setSelectedCompany(null);
   };
 
   const handleMapInteraction = () => {
-    if (isMobile) {
+    if (window.innerWidth <= 768) {
       setIsSidebarOpen(false);
     }
   };
@@ -116,13 +116,13 @@ const FacilityFinder = ({ mode = "public", user = null }) => {
               />
               {selectedCompany && (
                 isMobile ? (
-                  <CompanyPopupMobile
-                    company={selectedCompany}
+                  <CompanyPopupMobile 
+                    company={selectedCompany} 
                     onClose={() => setSelectedCompany(null)}
                   />
                 ) : (
-                  <CompanyPopup
-                    company={selectedCompany}
+                  <CompanyPopup 
+                    company={selectedCompany} 
                     onClose={() => setSelectedCompany(null)}
                     mode={mode}
                     user={user}
