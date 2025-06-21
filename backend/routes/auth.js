@@ -217,7 +217,8 @@ router.post('/verify-code', async (req, res) => {
         id: user.id,
         email: user.email,
         role: user.role,
-        name: user.name
+        firstName: user.firstName,
+        lastName: user.lastName
       },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
@@ -260,25 +261,20 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Ongeldige inloggegevens' });
     }
 
-    // In een echte applicatie zou je hier het wachtwoord verifiëren
-    // const validPassword = await bcrypt.compare(password, user.password);
-    // if (!validPassword) {
-    //   return res.status(401).json({ message: 'Ongeldige inloggegevens' });
-    // }
-
+    // Vergelijk wachtwoord
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ message: 'Ongeldige inloggegevens' });
+    }
+    
+    // Maak JWT token aan
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
+      { id: user.id, email: user.email, role: user.role, firstName: user.firstName, lastName: user.lastName },
       process.env.JWT_SECRET,
       { expiresIn: '1d' }
     );
 
-    res.json({
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      role: user.role,
-      token
-    });
+    res.json({ token, user });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ message: 'Er is iets misgegaan bij het inloggen' });

@@ -38,7 +38,7 @@ export default async function handler(
     const recentRequests = await prisma.verificationCode.count({
       where: {
         email,
-        requestedAt: { gte: tenMinutesAgo }
+        createdAt: { gte: tenMinutesAgo }
       }
     })
 
@@ -48,12 +48,26 @@ export default async function handler(
       })
     }
 
+    // Zoek naar een recente, geldige code
+    const existingCode = await prisma.verificationCode.findFirst({
+      where: {
+        email,
+        createdAt: { gte: tenMinutesAgo }
+      }
+    })
+
+    if (existingCode) {
+      return res.status(400).json({ 
+        error: 'Er is al een geldige code verzonden. Probeer het later opnieuw.' 
+      })
+    }
+
     // Genereer 4-cijferige code
-    const code = Math.floor(1000 + Math.random() * 9000).toString()
+    const verificationCode = Math.floor(1000 + Math.random() * 9000).toString()
 
     // Sla op in database
     await prisma.verificationCode.create({
-      data: { email, code }
+      data: { email, code: verificationCode }
     })
 
     // Verstuur e-mail
@@ -63,7 +77,7 @@ export default async function handler(
       subject: 'Je verificatiecode',
       html: `
         <h1>Welkom terug!</h1>
-        <p>Je verificatiecode is: <strong>${code}</strong></p>
+        <p>Je verificatiecode is: <strong>${verificationCode}</strong></p>
         <p>Deze code is 10 minuten geldig.</p>
       `
     })

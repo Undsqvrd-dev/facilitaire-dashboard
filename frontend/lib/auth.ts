@@ -64,11 +64,9 @@ export function getUserData(): User | null {
     return {
       id: payload.id,
       email: payload.email,
-      firstName: payload.firstName || '',
-      lastName: payload.lastName || '',
-      role: payload.role,
-      createdAt: new Date(payload.createdAt),
-      updatedAt: new Date(payload.updatedAt)
+      firstName: payload.firstName,
+      lastName: payload.lastName,
+      role: payload.role
     };
   } catch (error) {
     console.error('Error decoding token:', error);
