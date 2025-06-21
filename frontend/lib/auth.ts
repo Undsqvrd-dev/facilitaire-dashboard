@@ -4,13 +4,6 @@ export interface AuthUser extends User {
   token?: string;
 }
 
-export interface User {
-  id: string;
-  email: string;
-  name: string;
-  role: string;
-}
-
 export function getToken(): string | null {
   if (typeof window === 'undefined') return null;
   return localStorage.getItem('token');
@@ -71,8 +64,13 @@ export function getUserData(): User | null {
     return {
       id: payload.id,
       email: payload.email,
-      name: payload.name || '',
-      role: payload.role
+      firstName: payload.firstName || '',
+      lastName: payload.lastName || '',
+      role: payload.role,
+      createdAt: new Date(payload.createdAt),
+      updatedAt: new Date(payload.updatedAt),
+      candidate: payload.candidate,
+      employer: payload.employer
     };
   } catch (error) {
     console.error('Error decoding token:', error);
