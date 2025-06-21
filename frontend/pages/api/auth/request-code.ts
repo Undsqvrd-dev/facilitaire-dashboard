@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { prisma } from '@/lib/prisma'
+import { PrismaClient } from '@prisma/client'
 import { Resend } from 'resend'
 
+const prisma = new PrismaClient()
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 export default async function handler(
