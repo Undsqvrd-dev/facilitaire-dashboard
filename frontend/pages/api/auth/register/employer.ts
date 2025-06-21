@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { prisma } from '../../../../lib/prisma'
+import { PrismaClient } from '@prisma/client'
 import { sendVerificationEmail } from '../../../../lib/email'
+
+const prisma = new PrismaClient()
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -32,7 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const user = await prisma.user.create({
       data: {
         email,
-        name: `${firstName} ${lastName}`,
+        firstName,
+        lastName,
         role: 'employer',
         employer: {
           create: {

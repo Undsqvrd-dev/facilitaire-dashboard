@@ -40,7 +40,8 @@ export default function EmployerRegistration() {
         },
         body: JSON.stringify({
           email: formData.email,
-          name: `${formData.firstName} ${formData.lastName}`,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
           role: 'employer',
           subtype: formData.type,
           branch: formData.industry,

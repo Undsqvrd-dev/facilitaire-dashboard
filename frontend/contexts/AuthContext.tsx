@@ -3,9 +3,10 @@ import { useRouter } from 'next/router';
 import { getToken, setToken, removeToken, getUserData } from '../lib/auth';
 
 interface User {
-  id: string;
+  id: number;
+  firstName?: string;
+  lastName?: string;
   email: string;
-  name: string;
   role: string;
 }
 
