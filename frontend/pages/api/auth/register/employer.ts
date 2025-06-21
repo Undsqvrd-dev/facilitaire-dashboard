@@ -36,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         email,
         firstName,
         lastName,
-        role: 'employer',
+        role: 'EMPLOYER',
         employer: {
           create: {
             companyName,
