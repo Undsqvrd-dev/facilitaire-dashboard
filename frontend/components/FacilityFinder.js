@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Sidebar from "./Sidebar";
 import CompanyPopup from "./CompanyPopup";
-import CompanyPopupMobile from "./CompanyPopupMobile";
 import MobileMenuButton from "./MobileMenuButton";
 import { event } from "../lib/gtm";
 
@@ -13,14 +12,6 @@ const FacilityFinder = ({ mode = "public", user = null }) => {
   const [facilities, setFacilities] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   useEffect(() => {
     fetch("/api/getFacilities")
@@ -130,20 +121,13 @@ const FacilityFinder = ({ mode = "public", user = null }) => {
                 mode={mode}
               />
               {selectedCompany && (
-                isMobile ? (
-                  <CompanyPopupMobile 
-                    company={selectedCompany} 
-                    onClose={() => setSelectedCompany(null)}
-                  />
-                ) : (
-                  <CompanyPopup 
-                    company={selectedCompany} 
-                    onClose={() => setSelectedCompany(null)}
-                    mode={mode}
-                    user={user}
-                    inMapContainer
-                  />
-                )
+                <CompanyPopup 
+                  company={selectedCompany} 
+                  onClose={() => setSelectedCompany(null)}
+                  mode={mode}
+                  user={user}
+                  inMapContainer
+                />
               )}
             </div>
           </div>
