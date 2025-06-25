@@ -40,8 +40,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               id: Number(userData.id), // Converteer id naar number
               email: userData.email,
               role: userData.role,
-              firstName: userData.firstName || null,
-              lastName: userData.lastName || null,
+              firstName: 'firstName' in userData ? (userData.firstName as string | null) || null : null,
+              lastName: 'lastName' in userData ? (userData.lastName as string | null) || null : null,
             };
             setUser(validUser);
             setIsAuthenticated(true);
