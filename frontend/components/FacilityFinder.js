@@ -4,6 +4,7 @@ import Sidebar from "./Sidebar";
 import CompanyPopup from "./CompanyPopup";
 import CompanyPopupMobile from "./CompanyPopupMobile";
 import MobileMenuButton from "./MobileMenuButton";
+import { event } from "../lib/gtm";
 
 const Map = dynamic(() => import("./Map"), { ssr: false });
 
@@ -37,6 +38,13 @@ const FacilityFinder = ({ mode = "public", user = null }) => {
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
+    
+    // Track filter changes
+    event({
+      action: 'filter_change',
+      category: 'facility_finder',
+      label: `${newFilters.type} - ${newFilters.branche}`,
+    });
   };
 
   const handleSelectCompany = (company) => {
@@ -54,6 +62,13 @@ const FacilityFinder = ({ mode = "public", user = null }) => {
       ...company,
       lat: parseFloat(company.lat),
       lng: parseFloat(company.lng),
+    });
+
+    // Track company selection
+    event({
+      action: 'company_select',
+      category: 'facility_finder',
+      label: company.name,
     });
 
     if (window.innerWidth <= 768) {
